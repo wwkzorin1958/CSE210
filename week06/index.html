@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Week 06</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #111827;
+        --card: #1f2937;
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --accent: #60a5fa;
+        --accent-strong: #3b82f6;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, var(--bg), #111827);
+        color: var(--text);
+      }
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 48px 20px 64px;
+      }
+      .hero {
+        background: rgba(17, 24, 39, 0.8);
+        border: 1px solid rgba(96, 165, 250, 0.25);
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 5vw, 3rem);
+      }
+      p {
+        line-height: 1.6;
+        color: var(--muted);
+      }
+      .links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-top: 28px;
+      }
+      .card {
+        display: block;
+        background: var(--card);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 12px;
+        padding: 18px 16px;
+        text-decoration: none;
+        color: var(--text);
+        transition: transform 0.15s ease, border-color 0.15s ease;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(96, 165, 250, 0.8);
+      }
+      .card strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+      }
+      .nav-link {
+        display: inline-block;
+        margin-top: 20px;
+        background: var(--accent-strong);
+        color: white;
+        padding: 10px 16px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="hero">
+        <h1>Week 06</h1>
+        <p>Course activities for the sixth week of the course.</p>
+
+        <div class="links">
+          <a class="card" href="./EternalQuest/"><strong>Eternal Quest</strong>Open activity</a>
+          <a class="card" href="./Shapes/"><strong>Shapes</strong>Open activity</a>
+        </div>
+
+        <a class="nav-link" href="../">Back to course home</a>
+      </div>
+    </div>
+  </body>
+</html>
