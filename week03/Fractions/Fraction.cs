@@ -38,6 +38,8 @@ public class Fraction
 
 	public void SetBottom(int bottom)
 	{
+		if (bottom == 0)
+			throw new ArgumentException("Bottom cannot be zero");
 		_bottom = bottom;
 	}
 
