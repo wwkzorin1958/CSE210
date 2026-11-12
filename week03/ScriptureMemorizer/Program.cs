@@ -1,37 +1,98 @@
+// Add a prompt for user to enter the number of words to be hidden
+// Load the scriptures from the text file master_scriptures_reference.txt
+// located under ..\bin\Debug\net10.0
+
 using System;
 
 class Program
 {
+    static void ClearConsole()
+    {
+        Console.Write("\u001b[3J\u001b[2J\u001b[H");
+    }
+
     static void Main(string[] args)
     {
-        // Build the scripture (single verse example)
-        Reference reference = new Reference("John", 3, 16);
-        string text = "For God so loved the world that he gave his only begotten Son";
-        Scripture scripture = new Scripture(reference, text);
+        ScriptureLibrary library = new ScriptureLibrary("master_scriptures_reference.txt");
 
-        // Main loop
+        if (library.IsEmpty())
+        {
+            Console.WriteLine("No scriptures loaded.");
+            return;
+        }
+
+        int wordsToHide;
         while (true)
         {
-            Console.Clear();
-            Console.WriteLine(scripture.GetDisplayText());
-            Console.WriteLine();
+            Console.Write("How many words should be hidden each turn? ");
+            string countInput = Console.ReadLine();
 
-            if (scripture.AllWordsHidden())
+            if (countInput == null)
             {
-                Console.WriteLine("All words hidden. Press Enter to exit.");
-                Console.ReadLine();
-                break;
+                Console.WriteLine("Goodbye!");
+                return;
             }
 
-            Console.Write("Press Enter to continue, or type 'quit' to exit: ");
-            string input = Console.ReadLine();
-
-            if (input != null && input.Trim().ToLower() == "quit")
+            if (int.TryParse(countInput, out wordsToHide) && wordsToHide > 0)
             {
                 break;
             }
 
-            scripture.HideRandomWords(3);
+            Console.WriteLine("Enter a positive whole number.");
         }
+
+        bool keepGoing = true;
+
+        while (keepGoing)
+        {
+            Scripture scripture = library.GetRandom();
+            bool quitThisRound = false;
+
+            // Memorize this scripture
+            while (!quitThisRound && !scripture.AllWordsHidden())
+            {
+                ClearConsole();
+                Console.WriteLine(scripture.GetDisplayText());
+                Console.WriteLine();
+
+                Console.Write($"Press Enter to hide {wordsToHide} words, or type 'quit': ");
+                string input = Console.ReadLine();
+
+                if (input == null)
+                {
+                    ClearConsole();
+                    Console.WriteLine("No input available. Goodbye!");
+                    return;
+                }
+
+                if (input.Trim().ToLower() == "quit")
+                {
+                    ClearConsole();
+                    quitThisRound = true;
+                    keepGoing = false;
+                }
+                else
+                {
+                    scripture.HideRandomWords(wordsToHide);
+                }
+            }
+
+            if (!quitThisRound)
+            {
+                ClearConsole();
+                Console.WriteLine(scripture.GetDisplayText());
+                Console.WriteLine();
+            }
+
+            if (keepGoing)
+            {
+                Console.WriteLine("All words hidden!");
+                Console.Write("Practice another scripture? (y/n): ");
+                string answer = Console.ReadLine();
+                keepGoing = answer != null && answer.Trim().ToLower() == "y";
+            }
+        }
+
+        Console.WriteLine("Goodbye!");
     }
 }
