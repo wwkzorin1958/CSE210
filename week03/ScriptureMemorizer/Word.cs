@@ -1,3 +1,5 @@
+using System.Text;
+
 public class Word
 {
     private string _text;
@@ -21,11 +23,24 @@ public class Word
 
     public string GetDisplayText()
     {
-        if (_isHidden)
+        if (!_isHidden)
         {
-            // one underscore per letter
-            return new string('_', _text.Length);
+            return _text;
         }
-        return _text;
+
+        // Hide letters and digits; keep punctuation, spaces, dashes, quotes, etc.
+        StringBuilder result = new StringBuilder();
+        foreach (char c in _text)
+        {
+            if (char.IsLetterOrDigit(c))
+            {
+                result.Append('_');
+            }
+            else
+            {
+                result.Append(c);
+            }
+        }
+        return result.ToString();
     }
 }

@@ -8,4 +8,10 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <!-- Copy the scripture data file into bin\Debug\net10.0\ on every build -->
+  <ItemGroup>
+    <None Update="master_scriptures_reference.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
