@@ -21,7 +21,7 @@ class Program
 
         foreach (Video currentVideo in videos)
         {
-            Console.WriteLine($"{currentVideo._title} has {currentVideo.Comments.Count} comments.");
+            Console.WriteLine($"{currentVideo._title} has {currentVideo._comments.Count} comments.");
             currentVideo.DisplayComment();
             Console.WriteLine();
         }
