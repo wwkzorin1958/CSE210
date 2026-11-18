@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Week*/**/*.cs;week*/**/*.cs" />
+    <Compile Remove="Week*/**/*.cs;week*/**/*.cs;YouTbeVideos/**/*.cs" />
   </ItemGroup>
 
 </Project>

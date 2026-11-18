@@ -4,6 +4,32 @@
     "configurations": [
 
         {
+            "name": "Week 04: YouTube Videos",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-week04-YouTubeVideos",
+            "program": "${workspaceFolder}/week04/YouTubeVideos/bin/Debug/net10.0/YouTubeVideos.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/week04/YouTubeVideos",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "stopAtEntry": false
+        },
+
+        {
+            "name": "YouTube Videos: Version 3",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-sandbox-YouTubeVideos-v3",
+            "program": "${workspaceFolder}/sandbox/Sandbox/YouTbeVideos/version 3/bin/Debug/net10.0/YouTubeVideos.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/sandbox/Sandbox/YouTbeVideos/version 3",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "stopAtEntry": false
+        },
+
+        {
             "name": "Sandbox Project",
             "type": "coreclr",
             "request": "launch",
@@ -128,19 +154,6 @@
             "program": "${workspaceFolder}/week03/ScriptureMemorizer/bin/Debug/net10.0/ScriptureMemorizer.dll",
             "args": [],
             "cwd": "${workspaceFolder}/week03/ScriptureMemorizer",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "stopAtEntry": false
-        },
-
-        {
-            "name": "Week 04: YouTube Videos",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build-week04-YouTubeVideos",
-            "program": "${workspaceFolder}/week04/YouTubeVideos/bin/Debug/net10.0/YouTubeVideos.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/week04/YouTubeVideos",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false

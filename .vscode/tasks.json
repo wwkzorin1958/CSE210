@@ -17,6 +17,19 @@
         },
 
         {
+            "label": "build-sandbox-YouTubeVideos-v3",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/sandbox/Sandbox/YouTbeVideos/version 3/YouTubeVideos.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
+        {
             "label": "build-week01-Exercise1",
             "command": "dotnet",
             "type": "process",
