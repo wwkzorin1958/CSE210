@@ -31,6 +31,5 @@ class Video
             Console.Write($"User: {item._name}'s comment: ");
             Console.WriteLine(item._text);
         }
-
     }
 }
