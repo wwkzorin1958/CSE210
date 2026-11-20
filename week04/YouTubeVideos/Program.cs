@@ -19,6 +19,13 @@ class Program
         video2.AddComment("Kevin", "What about pyCharm?");
         videos.Add(video2);
 
+        Video video3 = new Video("Using AI agents", "George", 2000);
+        video3.AddComment("Peter", "What a great discovery!");
+        video3.AddComment("Susan", "How to choose between AI agents?");
+        video3.AddComment("Carrie", "Continue your series, very informative!!");
+        video3.AddComment("John", "Informative!!");
+        videos.Add(video3);
+
         foreach (Video currentVideo in videos)
         {
             Console.WriteLine($"{currentVideo._title} has {currentVideo._comments.Count} comments.");
