@@ -1,7 +1,9 @@
+using System.ComponentModel;
+
 public class MathAssignment : Assignment
 {
-    public string _textbookSection;
-    public string _problems;
+    private string _textbookSection;
+    private string _problems;
 
     public MathAssignment() : base()
     {
