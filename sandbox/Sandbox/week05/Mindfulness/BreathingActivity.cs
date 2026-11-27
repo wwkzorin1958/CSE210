@@ -10,17 +10,21 @@ public class BreathingActivity : Activity
         DisplayStartingMessage();
         DateTimeOffset startedAt = DateTimeOffset.Now;
         System.Diagnostics.Stopwatch timer = System.Diagnostics.Stopwatch.StartNew();
-        DateTime endTime = DateTime.Now.AddSeconds(GetDuration());
 
-        while (DateTime.Now < endTime)
+        while (IsWithinDuration(timer))
         {
             Console.Write("\nBreathe in: ");
             PlayBowlSound(false);
-            ShowCountDown(5);
+            ShowCountDown(5, timer);
+
+            if (!IsWithinDuration(timer))
+            {
+                break;
+            }
 
             Console.Write("\nBreathe out: ");
             PlayBowlSound(true);
-            ShowCountDown(5);
+            ShowCountDown(5, timer);
         }
 
         timer.Stop();

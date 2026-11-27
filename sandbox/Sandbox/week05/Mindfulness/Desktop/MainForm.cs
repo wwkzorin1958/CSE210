@@ -24,6 +24,7 @@ internal sealed class MainForm : Form
     private int _itemCount;
     private bool _highTone;
     private string _currentPrompt = "";
+    private TextBox? _activeInput;
     private Label? _timeLabel;
     private Label? _breathingLabel;
 
@@ -100,6 +101,7 @@ internal sealed class MainForm : Form
     private void ClearPage()
     {
         AcceptButton = null;
+        _activeInput = null;
         _timeLabel = null;
         _breathingLabel = null;
         foreach (Control control in _content.Controls.Cast<Control>().ToArray())
@@ -150,6 +152,7 @@ internal sealed class MainForm : Form
             Margin = new Padding(0, 0, 0, 14)
         };
         _content.Controls.Add(input);
+        _activeInput = input;
         return input;
     }
 
@@ -221,15 +224,15 @@ internal sealed class MainForm : Form
         }
         else if (_screen == Screen.Breathing)
         {
+            if (_clock.Elapsed >= TimeSpan.FromSeconds(_duration))
+            {
+                FinishActivity();
+                return;
+            }
+
             int phase = (int)(_clock.Elapsed.TotalSeconds / 5);
             if (phase != _lastBreathingPhase)
             {
-                if (phase % 2 == 0 && _clock.Elapsed.TotalSeconds >= _duration)
-                {
-                    FinishActivity();
-                    return;
-                }
-
                 _lastBreathingPhase = phase;
                 PlayBowlSound(phase % 2 != 0);
             }
@@ -242,9 +245,14 @@ internal sealed class MainForm : Form
 
             UpdateTimeLabel();
         }
-        else if (_screen == Screen.Listing || _screen == Screen.Reflecting)
+        else if (_screen == Screen.Listing || _screen == Screen.ReflectingIntro ||
+                 _screen == Screen.Reflecting)
         {
             UpdateTimeLabel();
+            if (_clock.Elapsed >= TimeSpan.FromSeconds(_duration))
+            {
+                FinishTimedInput();
+            }
         }
     }
 
@@ -283,7 +291,9 @@ internal sealed class MainForm : Form
                 _currentPrompt = _reflecting.GetRandomPrompt();
                 _screen = Screen.ReflectingIntro;
                 PlayBowlSound(false);
+                StartClock();
                 ShowReflectingIntro();
+                _timer.Start();
                 break;
         }
     }
@@ -300,9 +310,7 @@ internal sealed class MainForm : Form
         int remaining = (int)Math.Max(0, Math.Ceiling(_duration - _clock.Elapsed.TotalSeconds));
         _timeLabel.Text = remaining > 0
             ? $"Time remaining: {remaining} seconds"
-            : _screen == Screen.Breathing
-                ? "Finishing the current breathing cycle..."
-                : "Time is up. Submit your current response to finish.";
+            : "Time is up. Saving your response.";
     }
 
     private void ShowListing()
@@ -343,6 +351,12 @@ internal sealed class MainForm : Form
 
     private void SubmitListing(string item)
     {
+        if (_clock.Elapsed >= TimeSpan.FromSeconds(_duration))
+        {
+            FinishTimedInput();
+            return;
+        }
+
         if (!string.IsNullOrWhiteSpace(item))
         {
             _responses[_responses.Count - 1].Answers.Add(item);
@@ -383,17 +397,23 @@ internal sealed class MainForm : Form
     {
         ClearPage();
         AddText("Reflecting activity", true);
+        _timeLabel = AddText("");
+        UpdateTimeLabel();
         AddText(_currentPrompt);
-        AddText("Write your thoughts, or leave the box blank. The timed questions start when you continue.");
+        AddText("Write your thoughts, or leave the box blank. The session ends when time runs out.");
         TextBox input = AddInput();
         Button next = AddButton("Continue", (_, _) =>
         {
+            if (_clock.Elapsed >= TimeSpan.FromSeconds(_duration))
+            {
+                FinishTimedInput();
+                return;
+            }
+
             _responses.Add(new ActivityResponse(_currentPrompt, new List<string> { input.Text }));
             _highTone = true;
-            StartClock();
             _screen = Screen.Reflecting;
             NextReflectingQuestion();
-            _timer.Start();
         });
         AcceptButton = next;
         AddCancelButton();
@@ -415,19 +435,37 @@ internal sealed class MainForm : Form
         TextBox input = AddInput();
         Button next = AddButton("Next question / finish", (_, _) =>
         {
+            if (_clock.Elapsed >= TimeSpan.FromSeconds(_duration))
+            {
+                FinishTimedInput();
+                return;
+            }
+
             _responses.Add(new ActivityResponse(_currentPrompt, new List<string> { input.Text }));
-            if (_clock.Elapsed.TotalSeconds >= _duration)
-            {
-                FinishActivity();
-            }
-            else
-            {
-                NextReflectingQuestion();
-            }
+            NextReflectingQuestion();
         });
         AcceptButton = next;
         AddCancelButton();
         input.Focus();
+    }
+
+    private void FinishTimedInput()
+    {
+        string response = _activeInput?.Text ?? "";
+        if (_screen == Screen.Listing)
+        {
+            if (!string.IsNullOrWhiteSpace(response))
+            {
+                _responses[_responses.Count - 1].Answers.Add(response);
+                _itemCount++;
+            }
+        }
+        else if (_screen == Screen.ReflectingIntro || _screen == Screen.Reflecting)
+        {
+            _responses.Add(new ActivityResponse(_currentPrompt, new List<string> { response }));
+        }
+
+        FinishActivity();
     }
 
     private void PlayBowlSound(bool highTone)

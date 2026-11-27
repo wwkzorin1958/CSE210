@@ -91,37 +91,34 @@ public class ReflectingActivity : Activity
         _remainingQuestions.Clear();
         DisplayStartingMessage();
 
+        DateTimeOffset startedAt = DateTimeOffset.Now;
+        System.Diagnostics.Stopwatch timer = System.Diagnostics.Stopwatch.StartNew();
         string prompt = GetRandomPrompt();
         Console.Write($"\n --- {prompt}");
         PlayBowlSound(false);
 
         Console.Write("\nType your thoughts and press Enter, or press Enter to continue without writing: ");
-        string initialThoughts = Console.ReadLine();
-        if (initialThoughts == null)
-        {
-            throw new EndOfStreamException("Input ended before the reflecting activity began.");
-        }
+        string initialThoughts = ReadLineWithinDuration(timer);
 
         List<ActivityResponse> responses = new List<ActivityResponse>
         {
-            new ActivityResponse(prompt, new List<string> { initialThoughts })
+            new ActivityResponse(prompt, initialThoughts == null
+                ? new List<string>()
+                : new List<string> { initialThoughts })
         };
-        DateTimeOffset startedAt = DateTimeOffset.Now;
-        System.Diagnostics.Stopwatch timer = System.Diagnostics.Stopwatch.StartNew();
-        DateTime endTime = DateTime.Now.AddSeconds(GetDuration());
         bool highTone = true;
 
-        while (DateTime.Now < endTime)
+        while (IsWithinDuration(timer))
         {
             string question = GetRandomQuestion();
             Console.WriteLine($"\n{question}");
             PlayBowlSound(highTone);
             highTone = !highTone;
             Console.Write("Type your response and press Enter, or press Enter to skip: ");
-            string answer = Console.ReadLine();
+            string answer = ReadLineWithinDuration(timer);
             if (answer == null)
             {
-                throw new EndOfStreamException("Input ended before the reflecting activity was complete.");
+                break;
             }
 
             responses.Add(new ActivityResponse(question, new List<string> { answer }));

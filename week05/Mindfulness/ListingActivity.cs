@@ -98,18 +98,18 @@ public class ListingActivity : Activity
         List<string> items = new List<string>();
         responses.Add(new ActivityResponse(currentPrompt, new List<string>()));
 
-        while (timer.Elapsed < TimeSpan.FromSeconds(GetDuration()))
+        while (IsWithinDuration(timer))
         {
             Console.Write("> ");
-            string item = Console.ReadLine();
+            string item = ReadLineWithinDuration(timer);
             if (item == null)
             {
-                throw new EndOfStreamException("Input ended before the listing activity was complete.");
+                break;
             }
 
             if (string.IsNullOrWhiteSpace(item))
             {
-                if (timer.Elapsed < TimeSpan.FromSeconds(GetDuration()))
+                if (IsWithinDuration(timer))
                 {
                     List<string> otherPrompts = _prompt
                         .Where(prompt => prompt != currentPrompt)

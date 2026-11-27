@@ -1,5 +1,6 @@
 using System;
 using System.Media;
+using System.Text;
 
 public class Activity
 {
@@ -111,6 +112,76 @@ public class Activity
             Thread.Sleep(1000);
             Console.Write("\b \b");
         }
+    }
+
+    protected bool IsWithinDuration(System.Diagnostics.Stopwatch timer)
+    {
+        return timer.Elapsed < TimeSpan.FromSeconds(GetDuration());
+    }
+
+    protected void ShowCountDown(int seconds, System.Diagnostics.Stopwatch timer)
+    {
+        int count = seconds;
+        while (count > 0 && IsWithinDuration(timer))
+        {
+            Console.Write(count);
+            TimeSpan remaining = TimeSpan.FromSeconds(GetDuration()) - timer.Elapsed;
+            if (remaining <= TimeSpan.Zero)
+            {
+                break;
+            }
+
+            Thread.Sleep(remaining < TimeSpan.FromSeconds(1)
+                ? remaining
+                : TimeSpan.FromSeconds(1));
+            Console.Write("\b \b");
+            count--;
+        }
+    }
+
+    protected string ReadLineWithinDuration(System.Diagnostics.Stopwatch timer)
+    {
+        if (Console.IsInputRedirected)
+        {
+            throw new InvalidOperationException("Timed activity input requires an interactive console.");
+        }
+
+        StringBuilder input = new StringBuilder();
+        while (IsWithinDuration(timer))
+        {
+            if (!Console.KeyAvailable)
+            {
+                Thread.Sleep(10);
+                continue;
+            }
+
+            ConsoleKeyInfo key = Console.ReadKey(true);
+            if (key.Key == ConsoleKey.Enter)
+            {
+                Console.WriteLine();
+                return input.ToString();
+            }
+
+            if (key.Key == ConsoleKey.Backspace)
+            {
+                if (input.Length > 0)
+                {
+                    input.Length--;
+                    Console.Write("\b \b");
+                }
+
+                continue;
+            }
+
+            if (!char.IsControl(key.KeyChar))
+            {
+                input.Append(key.KeyChar);
+                Console.Write(key.KeyChar);
+            }
+        }
+
+        Console.WriteLine();
+        return null;
     }
 
     public void WaitAMoment()
