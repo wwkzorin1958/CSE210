@@ -2,6 +2,8 @@
 // It has a singing-bowl sound when it is the time to contemplate
 // It records the frequency of the mindfulness activities
 // It also records the answers to the Listing activities
+// Since this file consists of some private data, it is not pushed up to GitHub
+// It will create a activity-history.jsonl file in the same directory
 // This program is very useful for me to perform mindfulness activities.
 using System;
 using System.Threading.Tasks.Dataflow;
