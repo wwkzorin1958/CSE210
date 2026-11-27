@@ -1,0 +1,24 @@
+@page
+@model Mindfulness.Web.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Create account";
+}
+<section class="auth-card">
+    <span class="eyebrow">A LITTLE TIME FOR YOU</span>
+    <h1>Start where you are.</h1>
+    <p class="muted">Create a personal account. Your activity history is separate from other users.</p>
+    <form method="post" class="form-stack">
+        <div asp-validation-summary="All" class="validation"></div>
+        <label asp-for="Input.UserName">Username</label>
+        <input asp-for="Input.UserName" autocomplete="username" required />
+        <span class="field-help">3–40 letters, numbers, dots, underscores or hyphens.</span>
+        <label asp-for="Input.Password">Password</label>
+        <input asp-for="Input.Password" type="password" autocomplete="new-password" required />
+        <span class="field-help">At least 12 characters, including uppercase, lowercase, a number and a symbol.</span>
+        <label asp-for="Input.ConfirmPassword">Confirm password</label>
+        <input asp-for="Input.ConfirmPassword" type="password" autocomplete="new-password" required />
+        <button class="primary-button" type="submit">Create account <span>→</span></button>
+    </form>
+    <p class="auth-footer">Already have an account? <a asp-page="/Login">Sign in</a></p>
+    <p class="field-help">No email service is configured, so password recovery is not available.</p>
+</section>

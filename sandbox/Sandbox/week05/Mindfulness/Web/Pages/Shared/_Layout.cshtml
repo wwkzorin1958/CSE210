@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] · Mindfulness</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navigation" aria-label="Main navigation">
+            <a class="brand" asp-page="/Index"><span class="brand-mark">✳</span> Mindfulness</a>
+            <div class="nav-links">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-page="/Index">Activities</a>
+                    <a asp-page="/History">My history</a>
+                    <span class="user-name">@User.Identity.Name</span>
+                    <form method="post" asp-page="/Logout"><button class="nav-button" type="submit">Sign out</button></form>
+                }
+                else
+                {
+                    <a asp-page="/Login">Sign in</a>
+                    <a class="nav-button" asp-page="/Register">Create account</a>
+                }
+            </div>
+        </nav>
+    </header>
+    <main class="page-shell">@RenderBody()</main>
+    <footer class="site-footer"><span>Make space for yourself.</span><a asp-page="/Privacy">Privacy</a></footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

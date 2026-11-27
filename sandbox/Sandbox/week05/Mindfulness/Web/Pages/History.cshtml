@@ -1,0 +1,35 @@
+@page
+@model Mindfulness.Web.Pages.HistoryModel
+@{
+    ViewData["Title"] = "My history";
+}
+<section class="history-page">
+    <span class="eyebrow">YOUR JOURNEY</span>
+    <h1>Moments you've made.</h1>
+    <p class="muted">A personal record of the space you've made for yourself.</p>
+    @if (Model.Entries.Count == 0)
+    {
+        <div class="empty-state"><p>Your history is waiting for its first moment.</p><a asp-page="/Index">Begin an activity →</a></div>
+    }
+    @foreach (var entry in Model.Entries)
+    {
+        <article class="history-entry" id="activity-@entry.Id">
+            <div class="history-entry-top"><span class="history-kind">@entry.ActivityName</span><time datetime="@entry.StartedAt.ToString("O")">@entry.StartedAt.ToString("dd MMM yyyy, HH:mm zzz")</time></div>
+            <p class="history-duration">Requested @entry.RequestedSeconds seconds · Elapsed @entry.ElapsedSeconds.ToString("F1") seconds</p>
+            @foreach (var response in entry.Responses)
+            {
+                <div class="history-response">
+                    <p class="history-prompt">@response.Prompt</p>
+                    @if (response.Answers.Count == 0 || response.Answers.All(string.IsNullOrWhiteSpace))
+                    {
+                        <p class="muted">No response recorded.</p>
+                    }
+                    else
+                    {
+                        <ul>@foreach (string answer in response.Answers.Where(answer => !string.IsNullOrWhiteSpace(answer))) { <li>@answer</li> }</ul>
+                    }
+                </div>
+            }
+        </article>
+    }
+</section>

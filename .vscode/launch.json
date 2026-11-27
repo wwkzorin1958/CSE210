@@ -199,6 +199,18 @@
         },
 
         {
+            "name": "Sandbox: Mindfulness Desktop",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-sandbox-Mindfulness-desktop",
+            "program": "${workspaceFolder}/sandbox/Sandbox/week05/Mindfulness/Desktop/bin/Debug/net10.0-windows/Mindfulness.Desktop.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/sandbox/Sandbox/week05/Mindfulness",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+
+        {
             "name": "Week 06: Shapes",
             "type": "coreclr",
             "request": "launch",

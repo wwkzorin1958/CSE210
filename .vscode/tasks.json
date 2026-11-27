@@ -199,6 +199,19 @@
         },
 
         {
+            "label": "build-sandbox-Mindfulness-desktop",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/sandbox/Sandbox/week05/Mindfulness/Desktop/Mindfulness.Desktop.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
+        {
             "label": "build-week06-Shapes",
             "command": "dotnet",
             "type": "process",

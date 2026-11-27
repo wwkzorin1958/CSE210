@@ -1,0 +1,73 @@
+@page
+@model Mindfulness.Web.Pages.IndexModel
+@using System.Text.Json
+@{
+    ViewData["Title"] = "Activities";
+}
+<div id="app-data"
+     data-listing="@JsonSerializer.Serialize(Model.ListingPrompts)"
+     data-reflection="@JsonSerializer.Serialize(Model.ReflectionPrompts)"
+     data-questions="@JsonSerializer.Serialize(Model.ReflectionQuestions)"></div>
+<form id="antiforgery-form" method="post">@Html.AntiForgeryToken()</form>
+
+<section class="hero" id="home-screen">
+    <div class="hero-copy">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> A MOMENT FOR YOU</span>
+        <h1>A little space<br /><em>to just be.</em></h1>
+        <p>Slow down, notice what matters, and find your way back to the present.</p>
+        <a class="text-link" href="#activities">Explore your practice <span>↓</span></a>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+        <div class="art-orbit orbit-outer"></div><div class="art-orbit orbit-middle"></div>
+        <div class="art-circle"><span>inhale</span><span class="art-line"></span><span>exhale</span></div>
+        <span class="art-note">A QUIETER MOMENT</span>
+    </div>
+</section>
+
+<section class="activities-section" id="activities">
+    <div class="section-heading">
+        <div><span class="eyebrow">YOUR PRACTICE</span><h2>How would you like to begin?</h2></div>
+        <label class="duration-control" for="duration">SESSION LENGTH
+            <span><input id="duration" type="number" value="30" min="1" max="86400" /> seconds</span>
+        </label>
+    </div>
+    <div class="activity-grid">
+        <button class="activity-card breathe-card" type="button" data-activity="Breathing">
+            <span class="card-number">01 / BREATHE</span><span class="card-icon">◌</span>
+            <span class="card-title">Breathe</span><span class="card-description">Find a gentle rhythm and let your body settle.</span>
+            <span class="card-action">Begin breathing <span>↗</span></span>
+        </button>
+        <button class="activity-card reflect-card" type="button" data-activity="Reflecting">
+            <span class="card-number">02 / REFLECT</span><span class="card-icon">✳</span>
+            <span class="card-title">Reflect</span><span class="card-description">Look inward and explore meaningful moments.</span>
+            <span class="card-action">Begin reflecting <span>↗</span></span>
+        </button>
+        <button class="activity-card listing-card" type="button" data-activity="Listing">
+            <span class="card-number">03 / NOTICE</span><span class="card-icon">≋</span>
+            <span class="card-title">List</span><span class="card-description">Put pen to thought and notice the good around you.</span>
+            <span class="card-action">Begin listing <span>↗</span></span>
+        </button>
+    </div>
+    <div class="history-callout"><span>YOUR JOURNEY</span><p>Every moment you make space for yourself matters.</p><a asp-page="/History">View your history <span>↗</span></a></div>
+</section>
+
+<section id="activity-screen" class="session-card" hidden aria-live="polite">
+    <div class="session-top"><span id="session-kind" class="eyebrow"></span><span id="session-time" class="time-pill"></span></div>
+    <h2 id="session-title"></h2>
+    <p id="session-description" class="muted"></p>
+    <div id="session-prompt" class="session-prompt"></div>
+    <label id="response-label" for="response" hidden>Your response</label>
+    <input id="response" type="text" maxlength="2000" autocomplete="off" hidden />
+    <div id="session-items" class="session-items"></div>
+    <p id="session-error" class="validation" role="alert"></p>
+    <div class="session-actions">
+        <button id="submit-response" class="primary-button" type="button" hidden>Continue <span>→</span></button>
+        <button id="next-prompt" class="secondary-button" type="button" hidden>Another prompt</button>
+        <button id="finish-session" class="secondary-button" type="button" hidden>Finish and save</button>
+        <button id="cancel-session" class="text-button" type="button">Cancel session</button>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/activity.js" asp-append-version="true" defer></script>
+}

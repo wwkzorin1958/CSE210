@@ -1,0 +1,19 @@
+@page
+@model Mindfulness.Web.Pages.LoginModel
+@{
+    ViewData["Title"] = "Sign in";
+}
+<section class="auth-card">
+    <span class="eyebrow">WELCOME BACK</span>
+    <h1>Come back to yourself.</h1>
+    <p class="muted">Sign in to continue your practice and revisit your history.</p>
+    <form method="post" class="form-stack">
+        <div asp-validation-summary="All" class="validation"></div>
+        <label asp-for="Input.UserName">Username</label>
+        <input asp-for="Input.UserName" autocomplete="username" required />
+        <label asp-for="Input.Password">Password</label>
+        <input asp-for="Input.Password" type="password" autocomplete="current-password" required />
+        <button class="primary-button" type="submit">Sign in <span>→</span></button>
+    </form>
+    <p class="auth-footer">New here? <a asp-page="/Register">Create an account</a></p>
+</section>
