@@ -1,3 +1,8 @@
+// This program has a menu with 5 options
+// It has a singing-bowl sound when it is the time to contemplate
+// It records the frequency of the mindfulness activities
+// It also records the answers to the Listing activities
+// This program is very useful for me to perform mindfulness activities.
 using System;
 using System.Threading.Tasks.Dataflow;
 using System.Xml.Serialization;
